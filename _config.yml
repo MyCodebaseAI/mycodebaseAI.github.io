@@ -10,11 +10,17 @@
 ############################
 
 # Name of website
-title: Nadan Bites
-
+title: Nadan Bites-The Kerala Snacks Hub
+description: Authentic Kerala snacks delivered fresh to your door
 # Your name to show in the footer
-author: Nishanth
+author: Nadan Bites
 
+# Social media for business
+social-network-links:
+  email: "orders@nadanbites.com"
+  instagram: your-instagram
+  facebook: your-facebook
+  
 ###############################################
 # --- List of links in the navigation bar --- #
 ###############################################
