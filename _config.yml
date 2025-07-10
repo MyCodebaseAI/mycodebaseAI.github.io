@@ -10,17 +10,17 @@
 ############################
 
 # Name of website
-title: My website
+title: Nadan Bites
 
 # Your name to show in the footer
-author: Some Person
+author: Nishanth
 
 ###############################################
 # --- List of links in the navigation bar --- #
 ###############################################
 
 navbar-links:
-  About Me: "aboutme"
+  About Me: "Introducing Mouth-Watering Kerala Snacks at Your Doorstep"
   Resources:
     - Beautiful Jekyll: "https://beautifuljekyll.com"
     - Learn markdown: "https://www.markdowntutorial.com/"
