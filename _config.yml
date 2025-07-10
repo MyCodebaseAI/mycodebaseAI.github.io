@@ -28,10 +28,10 @@ social-network-links:
 navbar-links:
   About Me: "Introducing Mouth-Watering Kerala Snacks at Your Doorstep"
   Resources:
-    - Beautiful Jekyll: "https://beautifuljekyll.com"
-    - Learn markdown: "https://www.markdowntutorial.com/"
-  Author's home: "https://deanattali.com"
-
+  Home: ""
+  Menu: "menu"
+  About: "aboutme"
+  Contact: "contact"
 ################
 # --- Logo --- #
 ################
