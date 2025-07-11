@@ -15,7 +15,7 @@
   <img src="/assets/img/unniappam.jpeg" alt="Unniappam" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
     <strong>🌀 Unni Appam</strong><br>
-    Traditional spiral-shaped snack with perfect blend of spices<br>
+    Traditional Kerala sweet made with rice flour, banana, and jaggery, spiced with cardamom.<br>
     <em>Price: ₹180 per 500g | Shelf life: 25 days</em>
   </div>
 </div>
@@ -25,7 +25,7 @@
   <img src="/assets/img/nadankeralamixture.jpg" alt="Nadan Kerala Mixture" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
     <strong>🥜 Nadan Kerala Mixture</strong><br>
-    Spicy and crunchy mix of various ingredients<br>
+    Spicy traditional Kerala snack mix with sev, boondi, roasted peanuts, curry leaves, and aromatic spices.<br>
     <em>Price: ₹150 per 500g | Shelf life: 20 days</em>
   </div>
 </div>
@@ -33,8 +33,8 @@
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
   <img src="/assets/img/payyolimixture.jpg" alt="Payyoli Mixture" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
-    <strong>🫘 Payyoli Mixture (Chakka Chips)</strong><br>
-    Sweet and crispy jackfruit chips<br>
+    <strong>🫘 Payyoli Mixture </strong><br>
+    Traditional Malabar snack mix with peanuts, curry leaves, large sev, and aromatic spices for a crispy, flavorful bite.<br>
     <em>Price: ₹250 per 500g | Shelf life: 30 days</em>
   </div>
 </div>
@@ -42,8 +42,8 @@
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
   <img src="/assets/img/masalakadala.jpg" alt="Masala kadala" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
-    <strong>🌶️ Masala kadala (Kappa Chips)</strong><br>
-    Thin and crispy tapioca chips with chili powder<br>
+    <strong>🌶️ Masala kadala </strong><br>
+    Crispy spiced peanuts coated in chickpea flour and deep-fried with aromatic spices for a perfect crunchy snack.<br>
     <em>Price: ₹160 per 500g | Shelf life: 25 days</em>
   </div>
 </div>
