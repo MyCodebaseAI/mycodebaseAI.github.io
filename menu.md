@@ -1,8 +1,5 @@
----
-layout: page
-title: Our Menu
-subtitle: Authentic Kerala Snacks Made Fresh Daily
----
+<h1 style="font-size: 1.4rem; margin-bottom: 10px;">Our Menu</h1>
+<p style="font-size: 1rem; color: #7f8c8d; font-style: italic;">Authentic Kerala Snacks Made Fresh Daily</p>
 
 
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
