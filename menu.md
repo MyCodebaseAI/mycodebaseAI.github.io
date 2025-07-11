@@ -1,15 +1,15 @@
 <h1 style="font-size: 1.4rem; margin-bottom: 10px;">Our Menu</h1>
 <p style="font-size: 1rem; color: #7f8c8d; font-style: italic;">Authentic Kerala Snacks Made Fresh Daily</p>
 
-
-<div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
-  <img src="/assets/img/bananachips.jpg" alt="Banana chips" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
+<div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: nowrap; min-height: 150px;">
+  <img src="/assets/img/bananachips.jpg" alt="Banana chips" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px; flex-shrink: 0;">
   <div>
     <strong>🍌 Banana Chips</strong><br>
     Crispy banana chips made with fresh coconut oil and a touch of turmeric<br>
     <em>Price: ₹200 per 500g | Shelf life: 25 days</em>
   </div>
 </div>
+
 
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
   <img src="/assets/img/unniappam.jpeg" alt="Unniappam" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
