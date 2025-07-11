@@ -4,6 +4,7 @@ title: Our Menu
 subtitle: Authentic Kerala Snacks Made Fresh Daily
 ---
 
+
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
   <img src="/assets/img/bananachips.jpg" alt="Banana Chips" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
