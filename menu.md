@@ -14,7 +14,7 @@ subtitle: Authentic Kerala Snacks Made Fresh Daily
 </div>
 
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
-  <img src="/assets/img/unniappam.jpg" alt="Unniappam" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
+  <img src="/assets/img/unniappam.jpeg" alt="Unniappam" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
     <strong>🌀 Unni Appam</strong><br>
     Traditional spiral-shaped snack with perfect blend of spices<br>
