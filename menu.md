@@ -14,7 +14,7 @@ subtitle: Authentic Kerala Snacks Made Fresh Daily
 </div>
 
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
-  <img src="/assets/img/unniappam.jpg" alt="Murukku" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
+  <img src="/assets/img/unniappam.jpg" alt="Unniappam" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
     <strong>🌀 Unni Appam</strong><br>
     Traditional spiral-shaped snack with perfect blend of spices<br>
@@ -23,7 +23,7 @@ subtitle: Authentic Kerala Snacks Made Fresh Daily
 </div>
 
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
-  <img src="/assets/img/nadankeralamixture.jpg" alt="Kerala Mixture" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
+  <img src="/assets/img/nadankeralamixture.jpg" alt="Nadan Kerala Mixture" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
     <strong>🥜 Nadan Kerala Mixture</strong><br>
     Spicy and crunchy mix of various ingredients<br>
@@ -32,7 +32,7 @@ subtitle: Authentic Kerala Snacks Made Fresh Daily
 </div>
 
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
-  <img src="/assets/img/payyolimixture.jpg" alt="Jackfruit Chips" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
+  <img src="/assets/img/payyolimixture.jpg" alt="Payyoli Mixture" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
     <strong>🫘 Payyoli Mixture (Chakka Chips)</strong><br>
     Sweet and crispy jackfruit chips<br>
@@ -41,7 +41,7 @@ subtitle: Authentic Kerala Snacks Made Fresh Daily
 </div>
 
 <div style="display: flex; align-items: center; margin-bottom: 30px; flex-wrap: wrap;">
-  <img src="/assets/img/masalakadala.jpg" alt="Tapioca Chips" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
+  <img src="/assets/img/masalakadala.jpg" alt="Masala kadala" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; margin-right: 20px; margin-bottom: 10px;">
   <div>
     <strong>🌶️ Masala kadala (Kappa Chips)</strong><br>
     Thin and crispy tapioca chips with chili powder<br>
