@@ -5,7 +5,7 @@
   <title>Your Cart - Nadan Bites</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin:0 auto; background: #fffdfa; padding:0 20px 20px 20px;}
+    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 700px; margin:0 auto; background: #fffdfa; padding:0 20px 20px 20px;}
     .menu-bar {
         background: linear-gradient(90deg, #184e3f 0%, #4caf50 100%);
         color: #fff;
@@ -51,6 +51,26 @@
         border-radius: 12px;
         box-shadow: 0 2px 6px #ccc3;
     }
+    .container-flex {
+        display: flex;
+        gap: 32px;
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+    .cart-box, .address-box {
+        background: #f8faf5;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px #eee;
+        padding: 18px 18px 14px 18px;
+        flex: 1 1 0;
+        min-width: 260px;
+    }
+    .cart-box {
+        max-width: 360px;
+    }
+    .address-box {
+        max-width: 340px;
+    }
     .cart-item { display:flex; justify-content:space-between; margin-bottom:10px; align-items:center;}
     .cart-total { font-weight:bold; border-top:1px solid #ccc; margin-top:20px; padding-top:10px;}
     .checkout-btn { background:#e74c3c; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; margin-top:20px; width:100%;}
@@ -75,18 +95,9 @@
       cursor: pointer;
       margin-left: 10px;
     }
-    .form-section {
-      background: #f8faf5;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px #eee;
-      padding: 18px 10px;
-      margin-bottom: 24px;
-      margin-top: 24px;
-      max-width: 450px;
-    }
     .form-section label { font-weight: bold; }
-    .form-section input[type="text"] {
-      width: 95%;
+    .form-section input[type="text"], .form-section input[type="tel"] {
+      width: 100%;
       padding: 8px 6px;
       margin: 6px 0 12px 0;
       border-radius: 5px;
@@ -101,36 +112,82 @@
       font-size: 1rem;
       color: #184e3f;
     }
-    @media (max-width: 600px) {
-      body { padding: 10px; }
-      .main-heading { font-size: 1.07rem; }
-      .menu-bar {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-        border-radius: 0 0 8px 8px;
-        padding: 10px 6px;
-      }
-      .menu-links { flex-direction: column; gap: 10px;}
-      .form-section { padding: 12px 4px; }
+    .edit-address-btn {
+      background:#27ae60;
+      color:#fff;
+      padding:3px 14px;
+      border:none;
+      border-radius:4px;
+      cursor:pointer;
+      font-size:12px;
+      margin-top:3px;
+    }
+    .error-msg {
+      color: #e74c3c;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      margin-top: -8px;
+    }
+    @media (max-width: 900px) {
+      .container-flex { flex-direction: column; gap: 0; }
+      .cart-box, .address-box { max-width: 100%; margin-bottom: 22px;}
     }
   </style>
   <script>
     // --- ADDRESS LOGIC ---
     function saveAddress() {
-      const addr = document.getElementById('address-input').value.trim();
-      if(addr.length < 8) {
-        alert('Please enter a valid address.');
-        return;
+      const apt = document.getElementById('apt-input').value.trim();
+      const flat = document.getElementById('flat-input').value.trim();
+      const contact = document.getElementById('contact-input').value.trim();
+      const errorMsg = document.getElementById('address-error');
+      
+      let error = "";
+      if (apt.length < 1) error += "Apartment name required. ";
+      if (flat.length < 1) error += "Flat number required. ";
+      if (!/^[6-9]\d{9}$/.test(contact)) error += "Enter a valid 10-digit contact number. ";
+
+      if (error) {
+        errorMsg.textContent = error;
+        return false;
       }
-      localStorage.setItem('nb_address', addr);
-      document.getElementById('address-confirmed').textContent = addr;
-      document.getElementById('address-section').style.display = 'none';
-      document.getElementById('cart-area').style.display = '';
+      errorMsg.textContent = '';
+      // Store together for simplicity
+      const addrObj = {
+        apt, flat, contact
+      };
+      localStorage.setItem('nb_addr_v2', JSON.stringify(addrObj));
+      showAddressConfirmed();
+      return true;
+    }
+
+    function showAddressConfirmed() {
+      const addrObj = JSON.parse(localStorage.getItem('nb_addr_v2') || '{}');
+      document.getElementById('apt-input').style.display = 'none';
+      document.getElementById('flat-input').style.display = 'none';
+      document.getElementById('contact-input').style.display = 'none';
+      document.getElementById('save-address-btn').style.display = 'none';
+      document.getElementById('address-confirmed').innerHTML = 
+        `<b>Apartment:</b> ${addrObj.apt}<br>
+         <b>Flat:</b> ${addrObj.flat}<br>
+         <b>Contact:</b> ${addrObj.contact}`;
+      document.getElementById('address-confirmed').style.display = '';
+      document.getElementById('edit-address-btn').style.display = '';
     }
     function editAddress() {
-      document.getElementById('address-section').style.display = '';
-      document.getElementById('cart-area').style.display = 'none';
+      document.getElementById('apt-input').style.display = '';
+      document.getElementById('flat-input').style.display = '';
+      document.getElementById('contact-input').style.display = '';
+      document.getElementById('save-address-btn').style.display = '';
+      document.getElementById('address-confirmed').style.display = 'none';
+      document.getElementById('edit-address-btn').style.display = 'none';
+    }
+    function isAddressValid() {
+      const addrObj = JSON.parse(localStorage.getItem('nb_addr_v2') || '{}');
+      return (
+        addrObj.apt && addrObj.apt.length > 0 &&
+        addrObj.flat && addrObj.flat.length > 0 &&
+        addrObj.contact && /^[6-9]\d{9}$/.test(addrObj.contact)
+      );
     }
     // --- CART LOGIC ---
     let cart = {};
@@ -158,13 +215,9 @@
         }
       }
       cartTotalDiv.textContent = 'Total: ₹' + total;
-      checkoutBtn.disabled = !hasItems;
+      checkoutBtn.disabled = !hasItems || !isAddressValid();
       clearCartBtn.disabled = !hasItems;
       document.getElementById('empty-cart-msg').style.display = hasItems ? 'none' : 'block';
-
-      // Show confirmed address
-      const address = localStorage.getItem('nb_address');
-      document.getElementById('address-confirmed').textContent = address ? address : '';
     }
     function removeFromCart(productId) {
       if (cart[productId]) {
@@ -181,9 +234,10 @@
       renderCart();
     }
     function checkout() {
-      const address = localStorage.getItem('nb_address') || '';
-      if(!address || address.length < 8) {
-        alert('Please enter your delivery address before checkout.');
+      const addrObj = JSON.parse(localStorage.getItem('nb_addr_v2') || '{}');
+      if (!isAddressValid()) {
+        document.getElementById('address-error').textContent = "Please enter all address details correctly before checkout.";
+        document.getElementById('apt-input').focus();
         return;
       }
       let orderText = "Hello! I'd like to place an order:\n\n";
@@ -196,19 +250,37 @@
         }
       }
       orderText += `\nTotal: ₹${total}`;
-      orderText += `\n\nDelivery Address: ${address}\nPayment Mode: Cash on Delivery`;
+      orderText += `\n\nDelivery Details:\nApartment: ${addrObj.apt}\nFlat: ${addrObj.flat}\nContact: ${addrObj.contact}\nPayment Mode: Cash on Delivery`;
       orderText += `\n\nPlease confirm availability and delivery details.`;
       const whatsappUrl = `https://wa.me/919538321952?text=${encodeURIComponent(orderText)}`;
       window.open(whatsappUrl, '_blank');
     }
     // --- PAGE LOAD ---
     window.onload = function(){
-      if(!localStorage.getItem('nb_address')) {
-        document.getElementById('address-section').style.display = '';
-        document.getElementById('cart-area').style.display = 'none';
+      // Address section initial
+      const addrObj = JSON.parse(localStorage.getItem('nb_addr_v2') || '{}');
+      if (
+        addrObj.apt && addrObj.apt.length > 0 &&
+        addrObj.flat && addrObj.flat.length > 0 &&
+        addrObj.contact && /^[6-9]\d{9}$/.test(addrObj.contact)
+      ) {
+        document.getElementById('apt-input').style.display = 'none';
+        document.getElementById('flat-input').style.display = 'none';
+        document.getElementById('contact-input').style.display = 'none';
+        document.getElementById('save-address-btn').style.display = 'none';
+        document.getElementById('address-confirmed').innerHTML = 
+          `<b>Apartment:</b> ${addrObj.apt}<br>
+           <b>Flat:</b> ${addrObj.flat}<br>
+           <b>Contact:</b> ${addrObj.contact}`;
+        document.getElementById('address-confirmed').style.display = '';
+        document.getElementById('edit-address-btn').style.display = '';
       } else {
-        document.getElementById('address-section').style.display = 'none';
-        document.getElementById('cart-area').style.display = '';
+        document.getElementById('address-confirmed').style.display = 'none';
+        document.getElementById('edit-address-btn').style.display = 'none';
+        document.getElementById('apt-input').style.display = '';
+        document.getElementById('flat-input').style.display = '';
+        document.getElementById('contact-input').style.display = '';
+        document.getElementById('save-address-btn').style.display = '';
       }
       renderCart();
     }
@@ -226,25 +298,30 @@
   </nav>
   <div class="main-heading">Authentic Kerala Snacks Made Fresh Daily</div>
 
-  <!-- Address Section -->
-  <div id="address-section" class="form-section" style="display:none;">
-    <label for="address-input">Enter Delivery Address</label><br>
-    <input type="text" id="address-input" placeholder="Type your complete address" maxlength="150" />
-    <button onclick="saveAddress()">Save Address</button>
-  </div>
-
-  <!-- Cart Area -->
-  <div id="cart-area" style="display:none;">
-    <div style="margin-bottom:10px;">
-      <span class="address-confirmed" id="address-confirmed"></span>
-      <button onclick="editAddress()" style="background:#27ae60;color:#fff;padding:3px 14px;border:none;border-radius:4px;cursor:pointer;font-size:12px;margin-top:3px;">Edit Address</button>
+  <div class="container-flex">
+    <!-- Cart Section -->
+    <div class="cart-box">
+      <h2>Your Cart</h2>
+      <div id="cart-items"></div>
+      <div id="empty-cart-msg" style="color:#888; margin-top:20px; display:none;">Your cart is empty.</div>
+      <div id="cart-total" class="cart-total"></div>
+      <button id="checkout-btn" class="checkout-btn" onclick="checkout()" disabled>Checkout via WhatsApp (COD)</button>
+      <button id="clear-cart-btn" class="clear-cart-btn" onclick="clearCart()" disabled>Clear Cart</button>
     </div>
-    <h2 style="margin-top:12px;">Your Cart</h2>
-    <div id="cart-items"></div>
-    <div id="empty-cart-msg" style="color:#888; margin-top:20px; display:none;">Your cart is empty.</div>
-    <div id="cart-total" class="cart-total"></div>
-    <button id="checkout-btn" class="checkout-btn" onclick="checkout()" disabled>Checkout via WhatsApp (COD)</button>
-    <button id="clear-cart-btn" class="clear-cart-btn" onclick="clearCart()" disabled>Clear Cart</button>
+
+    <!-- Address Section -->
+    <div class="address-box form-section">
+      <label>Apartment Name <span style="color:#e74c3c">*</span></label>
+      <input type="text" id="apt-input" placeholder="Enter Apartment Name" maxlength="50" autocomplete="address-line1" />
+      <label>Flat Number <span style="color:#e74c3c">*</span></label>
+      <input type="text" id="flat-input" placeholder="Enter Flat Number" maxlength="50" autocomplete="address-line2" />
+      <label>Contact Number <span style="color:#e74c3c">*</span></label>
+      <input type="tel" id="contact-input" placeholder="Enter 10-digit Contact Number" maxlength="10" pattern="[6-9][0-9]{9}" autocomplete="tel" />
+      <div id="address-error" class="error-msg"></div>
+      <button id="save-address-btn" onclick="saveAddress()">Save Address</button>
+      <div id="address-confirmed" class="address-confirmed" style="display:none;"></div>
+      <button id="edit-address-btn" class="edit-address-btn" onclick="editAddress()" style="display:none;">Edit Details</button>
+    </div>
   </div>
 </body>
 </html>
