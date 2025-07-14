@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin:0 auto; background: #fffdfa; padding:0 20px 20px 20px;}
-    /* Menu Bar Styles */
     .menu-bar {
         background: linear-gradient(90deg, #184e3f 0%, #4caf50 100%);
         color: #fff;
@@ -22,7 +21,6 @@
         font-size: 1.12rem;
         font-weight: 700;
         letter-spacing: 1.5px;
-        font-family: 'Segoe UI', Arial, sans-serif;
     }
     .menu-links {
         display: flex;
@@ -48,9 +46,8 @@
         font-weight: 700;
         color: #184e3f;
         letter-spacing: 1px;
-        font-family: 'Segoe UI Semibold', Arial, sans-serif;
         background: linear-gradient(90deg,#ffe082 0%,#e0f7fa 100%);
-        padding: 8px 0 8px 0;
+        padding: 8px 0;
         border-radius: 12px;
         box-shadow: 0 2px 6px #ccc3;
     }
@@ -78,9 +75,34 @@
       cursor: pointer;
       margin-left: 10px;
     }
+    .form-section {
+      background: #f8faf5;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #eee;
+      padding: 18px 10px;
+      margin-bottom: 24px;
+      margin-top: 24px;
+      max-width: 450px;
+    }
+    .form-section label { font-weight: bold; }
+    .form-section input[type="text"] {
+      width: 95%;
+      padding: 8px 6px;
+      margin: 6px 0 12px 0;
+      border-radius: 5px;
+      border: 1px solid #b2dfdb;
+      font-size: 1rem;
+    }
+    .address-confirmed {
+      padding: 10px;
+      background: #e0f7fa;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #184e3f;
+    }
     @media (max-width: 600px) {
       body { padding: 10px; }
-      .checkout-btn, .clear-cart-btn { font-size: 16px;}
       .main-heading { font-size: 1.07rem; }
       .menu-bar {
         flex-direction: column;
@@ -90,9 +112,27 @@
         padding: 10px 6px;
       }
       .menu-links { flex-direction: column; gap: 10px;}
+      .form-section { padding: 12px 4px; }
     }
   </style>
   <script>
+    // --- ADDRESS LOGIC ---
+    function saveAddress() {
+      const addr = document.getElementById('address-input').value.trim();
+      if(addr.length < 8) {
+        alert('Please enter a valid address.');
+        return;
+      }
+      localStorage.setItem('nb_address', addr);
+      document.getElementById('address-confirmed').textContent = addr;
+      document.getElementById('address-section').style.display = 'none';
+      document.getElementById('cart-area').style.display = '';
+    }
+    function editAddress() {
+      document.getElementById('address-section').style.display = '';
+      document.getElementById('cart-area').style.display = 'none';
+    }
+    // --- CART LOGIC ---
     let cart = {};
     function renderCart() {
       cart = JSON.parse(localStorage.getItem('cart')) || {};
@@ -121,6 +161,10 @@
       checkoutBtn.disabled = !hasItems;
       clearCartBtn.disabled = !hasItems;
       document.getElementById('empty-cart-msg').style.display = hasItems ? 'none' : 'block';
+
+      // Show confirmed address
+      const address = localStorage.getItem('nb_address');
+      document.getElementById('address-confirmed').textContent = address ? address : '';
     }
     function removeFromCart(productId) {
       if (cart[productId]) {
@@ -137,6 +181,11 @@
       renderCart();
     }
     function checkout() {
+      const address = localStorage.getItem('nb_address') || '';
+      if(!address || address.length < 8) {
+        alert('Please enter your delivery address before checkout.');
+        return;
+      }
       let orderText = "Hello! I'd like to place an order:\n\n";
       let total = 0;
       for (const [id, item] of Object.entries(cart)) {
@@ -146,11 +195,23 @@
           orderText += `${item.name} - ${item.quantity} x ₹${item.price} = ₹${itemTotal}\n`;
         }
       }
-      orderText += `\nTotal: ₹${total}\n\nPlease confirm availability and delivery details.`;
+      orderText += `\nTotal: ₹${total}`;
+      orderText += `\n\nDelivery Address: ${address}\nPayment Mode: Cash on Delivery`;
+      orderText += `\n\nPlease confirm availability and delivery details.`;
       const whatsappUrl = `https://wa.me/919538321952?text=${encodeURIComponent(orderText)}`;
       window.open(whatsappUrl, '_blank');
     }
-    window.onload = renderCart;
+    // --- PAGE LOAD ---
+    window.onload = function(){
+      if(!localStorage.getItem('nb_address')) {
+        document.getElementById('address-section').style.display = '';
+        document.getElementById('cart-area').style.display = 'none';
+      } else {
+        document.getElementById('address-section').style.display = 'none';
+        document.getElementById('cart-area').style.display = '';
+      }
+      renderCart();
+    }
   </script>
 </head>
 <body>
@@ -164,11 +225,26 @@
       </div>
   </nav>
   <div class="main-heading">Authentic Kerala Snacks Made Fresh Daily</div>
-  <h2 style="margin-top:32px;">Your Cart</h2>
-  <div id="cart-items"></div>
-  <div id="empty-cart-msg" style="color:#888; margin-top:20px; display:none;">Your cart is empty.</div>
-  <div id="cart-total" class="cart-total"></div>
-  <button id="checkout-btn" class="checkout-btn" onclick="checkout()" disabled>Checkout via WhatsApp</button>
-  <button id="clear-cart-btn" class="clear-cart-btn" onclick="clearCart()" disabled>Clear Cart</button>
+
+  <!-- Address Section -->
+  <div id="address-section" class="form-section" style="display:none;">
+    <label for="address-input">Enter Delivery Address</label><br>
+    <input type="text" id="address-input" placeholder="Type your complete address" maxlength="150" />
+    <button onclick="saveAddress()">Save Address</button>
+  </div>
+
+  <!-- Cart Area -->
+  <div id="cart-area" style="display:none;">
+    <div style="margin-bottom:10px;">
+      <span class="address-confirmed" id="address-confirmed"></span>
+      <button onclick="editAddress()" style="background:#27ae60;color:#fff;padding:3px 14px;border:none;border-radius:4px;cursor:pointer;font-size:12px;margin-top:3px;">Edit Address</button>
+    </div>
+    <h2 style="margin-top:12px;">Your Cart</h2>
+    <div id="cart-items"></div>
+    <div id="empty-cart-msg" style="color:#888; margin-top:20px; display:none;">Your cart is empty.</div>
+    <div id="cart-total" class="cart-total"></div>
+    <button id="checkout-btn" class="checkout-btn" onclick="checkout()" disabled>Checkout via WhatsApp (COD)</button>
+    <button id="clear-cart-btn" class="clear-cart-btn" onclick="clearCart()" disabled>Clear Cart</button>
+  </div>
 </body>
 </html>
