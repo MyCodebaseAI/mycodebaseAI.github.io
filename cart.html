@@ -215,7 +215,8 @@
         }
       }
       cartTotalDiv.textContent = 'Total: ₹' + total;
-      checkoutBtn.disabled = !hasItems || !isAddressValid();
+      // Always enable checkout button
+      checkoutBtn.disabled = false;
       clearCartBtn.disabled = !hasItems;
       document.getElementById('empty-cart-msg').style.display = hasItems ? 'none' : 'block';
     }
@@ -235,11 +236,7 @@
     }
     function checkout() {
       const addrObj = JSON.parse(localStorage.getItem('nb_addr_v2') || '{}');
-      if (!isAddressValid()) {
-        document.getElementById('address-error').textContent = "Please enter all address details correctly before checkout.";
-        document.getElementById('apt-input').focus();
-        return;
-      }
+      // No address check, but still use whatever is stored
       let orderText = "Hello! I'd like to place an order:\n\n";
       let total = 0;
       for (const [id, item] of Object.entries(cart)) {
@@ -250,7 +247,7 @@
         }
       }
       orderText += `\nTotal: ₹${total}`;
-      orderText += `\n\nDelivery Details:\nApartment: ${addrObj.apt}\nFlat: ${addrObj.flat}\nContact: ${addrObj.contact}\nPayment Mode: Cash on Delivery`;
+      orderText += `\n\nDelivery Details:\nApartment: ${addrObj.apt || ""}\nFlat: ${addrObj.flat || ""}\nContact: ${addrObj.contact || ""}\nPayment Mode: Cash on Delivery`;
       orderText += `\n\nPlease confirm availability and delivery details.`;
       const whatsappUrl = `https://wa.me/919538321952?text=${encodeURIComponent(orderText)}`;
       window.open(whatsappUrl, '_blank');
@@ -305,7 +302,7 @@
       <div id="cart-items"></div>
       <div id="empty-cart-msg" style="color:#888; margin-top:20px; display:none;">Your cart is empty.</div>
       <div id="cart-total" class="cart-total"></div>
-      <button id="checkout-btn" class="checkout-btn" onclick="checkout()" disabled>Checkout via WhatsApp (COD)</button>
+      <button id="checkout-btn" class="checkout-btn" onclick="checkout()">Checkout via WhatsApp (COD)</button>
       <button id="clear-cart-btn" class="clear-cart-btn" onclick="clearCart()" disabled>Clear Cart</button>
     </div>
 
