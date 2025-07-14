@@ -12,7 +12,6 @@
             padding: 20px;
             line-height: 1.6;
         }
-        
         .product-item {
             display: flex;
             align-items: center;
@@ -20,7 +19,6 @@
             flex-wrap: nowrap;
             min-height: 150px;
         }
-        
         .product-image {
             width: 200px;
             height: 150px;
@@ -29,37 +27,30 @@
             margin-right: 20px;
             flex-shrink: 0;
         }
-        
         .product-info {
             flex: 1;
         }
-        
         .contact-section {
             margin-top: 40px;
             padding-top: 20px;
             border-top: 2px solid #ddd;
         }
-        
         .contact-info {
             margin-bottom: 20px;
         }
-        
         .whatsapp-link {
             color: #25D366;
             text-decoration: none;
         }
-        
         .whatsapp-link:hover {
             text-decoration: underline;
         }
-        
         .quantity-controls {
             display: flex;
             align-items: center;
             gap: 10px;
             margin: 10px 0;
         }
-        
         .quantity-btn {
             background-color: #e74c3c;
             color: white;
@@ -73,23 +64,19 @@
             align-items: center;
             justify-content: center;
         }
-        
         .quantity-btn:hover {
             background-color: #c0392b;
         }
-        
         .quantity-btn:disabled {
             background-color: #bdc3c7;
             cursor: not-allowed;
         }
-        
         .quantity-display {
             font-weight: bold;
             font-size: 16px;
             min-width: 20px;
             text-align: center;
         }
-        
         .add-to-cart-btn {
             background-color: #27ae60;
             color: white;
@@ -100,16 +87,13 @@
             font-size: 14px;
             margin-left: 10px;
         }
-        
         .add-to-cart-btn:hover {
             background-color: #219a52;
         }
-        
         .add-to-cart-btn:disabled {
             background-color: #bdc3c7;
             cursor: not-allowed;
         }
-        
         .cart-summary {
             position: fixed;
             top: 20px;
@@ -120,22 +104,20 @@
             border-radius: 8px;
             min-width: 200px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
         }
-        
         .cart-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
             font-size: 14px;
         }
-        
         .cart-total {
             border-top: 1px solid #34495e;
             padding-top: 10px;
             margin-top: 10px;
             font-weight: bold;
         }
-        
         .checkout-btn {
             background-color: #e74c3c;
             color: white;
@@ -146,22 +128,18 @@
             width: 100%;
             margin-top: 10px;
         }
-        
         .checkout-btn:hover {
             background-color: #c0392b;
         }
-        
         @media (max-width: 600px) {
             .product-item {
                 flex-direction: column;
                 text-align: center;
             }
-            
             .product-image {
                 margin-right: 0;
                 margin-bottom: 15px;
             }
-            
             .cart-summary {
                 position: relative;
                 top: auto;
@@ -172,52 +150,62 @@
     </style>
     <script>
         let cart = {};
-        
+
         function updateQuantity(productId, change) {
+            // Retrieve the quantity span and add-to-cart button
+            const quantitySpan = document.getElementById(`quantity-${productId}`);
+            const addBtn = document.getElementById(`add-btn-${productId}`);
+
             if (!cart[productId]) {
                 cart[productId] = { quantity: 0, name: '', price: 0 };
             }
-            
+
             cart[productId].quantity += change;
-            
+
             if (cart[productId].quantity < 0) {
                 cart[productId].quantity = 0;
             }
-            
-            document.getElementById(`quantity-${productId}`).textContent = cart[productId].quantity;
-            
+
+            if (quantitySpan) {
+                quantitySpan.textContent = cart[productId].quantity;
+            }
+
             // Update add to cart button state
-            const addBtn = document.getElementById(`add-btn-${productId}`);
-            addBtn.disabled = cart[productId].quantity === 0;
-            
+            if (addBtn) {
+                addBtn.disabled = cart[productId].quantity === 0;
+            }
+
             updateCartDisplay();
         }
-        
+
         function addToCart(productId, productName, price) {
             if (!cart[productId] || cart[productId].quantity === 0) return;
-            
+
             cart[productId].name = productName;
             cart[productId].price = price;
-            
+
             updateCartDisplay();
             alert(`${productName} added to cart!`);
         }
-        
+
         function updateCartDisplay() {
             const cartItems = document.getElementById('cart-items');
             const cartTotal = document.getElementById('cart-total');
             const checkoutBtn = document.getElementById('checkout-btn');
-            
+            const cartSummary = document.getElementById('cart-summary');
+
+            if (!cartItems || !cartTotal || !checkoutBtn || !cartSummary) return;
+
             cartItems.innerHTML = '';
             let total = 0;
             let hasItems = false;
-            
+
             for (const [productId, item] of Object.entries(cart)) {
                 if (item.quantity > 0 && item.name) {
                     hasItems = true;
                     const itemTotal = item.quantity * item.price;
                     total += itemTotal;
-                    
+
                     const cartItem = document.createElement('div');
                     cartItem.className = 'cart-item';
                     cartItem.innerHTML = `
@@ -227,19 +215,18 @@
                     cartItems.appendChild(cartItem);
                 }
             }
-            
+
             cartTotal.textContent = `Total: ₹${total}`;
             checkoutBtn.disabled = !hasItems;
-            
+
             // Show/hide cart
-            const cartSummary = document.getElementById('cart-summary');
             cartSummary.style.display = hasItems ? 'block' : 'none';
         }
-        
+
         function checkout() {
             let orderText = "Hello! I'd like to place an order:\n\n";
             let total = 0;
-            
+
             for (const [productId, item] of Object.entries(cart)) {
                 if (item.quantity > 0 && item.name) {
                     const itemTotal = item.quantity * item.price;
@@ -247,14 +234,14 @@
                     orderText += `${item.name} - ${item.quantity} x ₹${item.price} = ₹${itemTotal}\n`;
                 }
             }
-            
+
             orderText += `\nTotal: ₹${total}`;
             orderText += `\n\nPlease confirm availability and delivery details.`;
-            
+
             const whatsappUrl = `https://wa.me/919538321952?text=${encodeURIComponent(orderText)}`;
             window.open(whatsappUrl, '_blank');
         }
-        
+
         // Initialize cart display on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateCartDisplay();
@@ -362,22 +349,18 @@
 
     <div class="contact-section">
         <h2><strong>Order & Delivery Information</strong></h2>
-        
         <div class="contact-info">
             📞 <strong>Phone:</strong> +91 9538321952<br>
             📧 <strong>Email:</strong> orders@nadanbites.com<br>
             📱 <strong>WhatsApp:</strong> <a href="https://wa.me/919538321952" class="whatsapp-link">Click to Order</a>
         </div>
-
         <div class="contact-info">
             <strong>Delivery Areas:</strong><br>
             Electronic City, Bengaluru: Free delivery
         </div>
-
         <div class="contact-info">
             <strong>Payment Options:</strong> Cash on Delivery | UPI | Bank Transfer | Online Payment
         </div>
-
         <p style="font-style: italic; color: #7f8c8d; margin-top: 20px;">
             *All snacks made fresh to order using traditional recipes and finest ingredients.*
         </p>
