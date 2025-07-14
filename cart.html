@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart - Nadan Bites</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin:40px auto; padding:20px;}
+    .cart-item { display:flex; justify-content:space-between; margin-bottom:10px; align-items:center;}
+    .cart-total { font-weight:bold; border-top:1px solid #ccc; margin-top:20px; padding-top:10px;}
+    .checkout-btn { background:#e74c3c; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; margin-top:20px; width:100%;}
+    .checkout-btn:disabled { background:#ccc; cursor:not-allowed;}
+    .clear-cart-btn {
+      background: #bdc3c7;
+      color: #2c3e50;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+    .clear-cart-btn:disabled { background:#eee; cursor:not-allowed;}
+    .remove-btn {
+      background: transparent;
+      color: #e74c3c;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .back-btn {
+      background: #27ae60;
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      padding: 9px 18px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .back-btn:hover { background: #219a52; }
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .checkout-btn, .clear-cart-btn { font-size: 16px;}
+    }
+  </style>
+  <script>
+    let cart = {};
+    function renderCart() {
+      cart = JSON.parse(localStorage.getItem('cart')) || {};
+      const cartItemsDiv = document.getElementById('cart-items');
+      const cartTotalDiv = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkout-btn');
+      const clearCartBtn = document.getElementById('clear-cart-btn');
+      cartItemsDiv.innerHTML = '';
+      let total = 0;
+      let hasItems = false;
+      for (const [id, item] of Object.entries(cart)) {
+        if (item.quantity > 0 && item.name) {
+          hasItems = true;
+          let itemTotal = item.quantity * item.price;
+          total += itemTotal;
+          cartItemsDiv.innerHTML += `
+            <div class="cart-item">
+              <span>${item.name} x${item.quantity}</span>
+              <span>₹${itemTotal}
+                <button class="remove-btn" onclick="removeFromCart('${id}')" title="Remove">×</button>
+              </span>
+            </div>`;
+        }
+      }
+      cartTotalDiv.textContent = 'Total: ₹' + total;
+      checkoutBtn.disabled = !hasItems;
+      clearCartBtn.disabled = !hasItems;
+      document.getElementById('empty-cart-msg').style.display = hasItems ? 'none' : 'block';
+    }
+    function removeFromCart(productId) {
+      if (cart[productId]) {
+        cart[productId].quantity = 0;
+        cart[productId].name = '';
+        cart[productId].price = 0;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+      }
+    }
+    function clearCart() {
+      localStorage.removeItem('cart');
+      cart = {};
+      renderCart();
+    }
+    function checkout() {
+      let orderText = "Hello! I'd like to place an order:\n\n";
+      let total = 0;
+      for (const [id, item] of Object.entries(cart)) {
+        if (item.quantity > 0 && item.name) {
+          let itemTotal = item.quantity * item.price;
+          total += itemTotal;
+          orderText += `${item.name} - ${item.quantity} x ₹${item.price} = ₹${itemTotal}\n`;
+        }
+      }
+      orderText += `\nTotal: ₹${total}\n\nPlease confirm availability and delivery details.`;
+      const whatsappUrl = `https://wa.me/919538321952?text=${encodeURIComponent(orderText)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+    window.onload = renderCart;
+  </script>
+</head>
+<body>
+  <a class="back-btn" href="index.html">&larr; Back to Menu</a>
+  <h2>Your Cart</h2>
+  <div id="cart-items"></div>
+  <div id="empty-cart-msg" style="color:#888; margin-top:20px; display:none;">Your cart is empty.</div>
+  <div id="cart-total" class="cart-total"></div>
+  <button id="checkout-btn" class="checkout-btn" onclick="checkout()" disabled>Checkout via WhatsApp</button>
+  <button id="clear-cart-btn" class="clear-cart-btn" onclick="clearCart()" disabled>Clear Cart</button>
+</body>
+</html>
