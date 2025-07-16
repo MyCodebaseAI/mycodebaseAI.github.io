@@ -95,6 +95,25 @@
       cursor: pointer;
       margin-left: 10px;
     }
+    .qty-btn {
+      background: #e0e0e0;
+      border: none;
+      padding: 2px 8px;
+      margin: 0 4px;
+      font-size: 1rem;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .qty-btn:active {
+      background: #b2dfdb;
+    }
+    .qty-value {
+      min-width: 18px;
+      display: inline-block;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.05em;
+    }
     .form-section label { font-weight: bold; }
     .form-section input[type="text"], .form-section input[type="tel"] {
       width: 100%;
@@ -207,7 +226,12 @@
           total += itemTotal;
           cartItemsDiv.innerHTML += `
             <div class="cart-item">
-              <span>${item.name} x${item.quantity}</span>
+              <span>
+                ${item.name} 
+                <button class="qty-btn" onclick="decreaseQty('${id}')">−</button>
+                <span class="qty-value">${item.quantity}</span>
+                <button class="qty-btn" onclick="increaseQty('${id}')">+</button>
+              </span>
               <span>₹${itemTotal}
                 <button class="remove-btn" onclick="removeFromCart('${id}')" title="Remove">×</button>
               </span>
@@ -219,6 +243,25 @@
       checkoutBtn.disabled = false;
       clearCartBtn.disabled = !hasItems;
       document.getElementById('empty-cart-msg').style.display = hasItems ? 'none' : 'block';
+    }
+    function increaseQty(productId) {
+      if (cart[productId]) {
+        cart[productId].quantity += 1;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+      }
+    }
+    function decreaseQty(productId) {
+      if (cart[productId]) {
+        if (cart[productId].quantity > 1) {
+          cart[productId].quantity -= 1;
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart();
+        } else {
+          // Optionally remove item if quantity reaches 0
+          removeFromCart(productId);
+        }
+      }
     }
     function removeFromCart(productId) {
       if (cart[productId]) {
