@@ -163,7 +163,7 @@
       let error = "";
       if (apt.length < 1) error += "Apartment name required. ";
       if (flat.length < 1) error += "Flat No required. ";
-      if (!/^[6-9]\d{9}$/.test(contact)) error += "Enter a valid 10-digit contact number. ";
+      if (!/^[6-9]\d{9}$/.test(contact)) error += "Enter a valid 10-digit Contact No. ";
 
       if (error) {
         errorMsg.textContent = error;
@@ -355,8 +355,8 @@
       <input type="text" id="apt-input" placeholder="Enter Apartment Name" maxlength="50" autocomplete="address-line1" />
       <label>Flat No <span style="color:#e74c3c">*</span></label>
       <input type="text" id="flat-input" placeholder="Enter Flat No" maxlength="50" autocomplete="address-line2" />
-      <label>Contact Number <span style="color:#e74c3c">*</span></label>
-      <input type="tel" id="contact-input" placeholder="Enter 10-digit Contact Number" maxlength="10" pattern="[6-9][0-9]{9}" autocomplete="tel" />
+      <label>Contact No <span style="color:#e74c3c">*</span></label>
+      <input type="tel" id="contact-input" placeholder="Enter 10-digit Contact No" maxlength="10" pattern="[6-9][0-9]{9}" autocomplete="tel" />
       <div id="address-error" class="error-msg"></div>
       <button id="save-address-btn" onclick="saveAddress()">Save Address</button>
       <div id="address-confirmed" class="address-confirmed" style="display:none;"></div>
