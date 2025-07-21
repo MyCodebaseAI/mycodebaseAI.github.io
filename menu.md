@@ -352,6 +352,7 @@
         <div class="contact-info">
             📞 <strong>Phone:</strong> +91 9538321952<br>
             📧 <strong>Email:</strong> orders@nadanbites.com<br>
+            📧 <strong>Fssai Reg No:</strong> 21225007000477<br>
             📱 <strong>WhatsApp:</strong> <a href="https://wa.me/919538321952" class="whatsapp-link">Click to Order</a>
         </div>
         <div class="contact-info">
