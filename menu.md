@@ -362,7 +362,7 @@
             <strong>Payment Options:</strong> Cash on Delivery | UPI | Bank Transfer | Online Payment
         </div>
         <p style="font-style: italic; color: #7f8c8d; margin-top: 20px;">
-            *Fssai Reg No: 21225007000477"
+            *Fssai Reg No: 21225007000477*
             *All snacks made fresh to order using traditional recipes and finest ingredients.*
         </p>
     </div>
